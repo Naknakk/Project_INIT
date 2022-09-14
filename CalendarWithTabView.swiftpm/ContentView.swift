@@ -9,12 +9,10 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationView {
             TabView(selection: $selection) {
                 Text("First View")
                     .tabItem {
                         Image(systemName: "house.fill")
-                            .tint(.white)
                         Text(tabs[0])
                     }.tag(tabs[0])
                 InformationCalendarView()
@@ -23,6 +21,8 @@ struct ContentView: View {
                         Text(tabs[1])
                     }
                     .tag(tabs[1])
+                   
+                    
                 Text("Third View")
                     .tabItem {
                         Text(tabs[2])
@@ -35,16 +35,5 @@ struct ContentView: View {
                     }
                     .tag(tabs[3])
             }
-            .navigationBarTitle(selection)
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        
-                    }) {
-                        Image(systemName: "star")
-                    }
-                }
-            }
-        }
     }
 }

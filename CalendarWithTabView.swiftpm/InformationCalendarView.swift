@@ -12,6 +12,8 @@ struct InformationCalendarView: View {
         informations[date] = []
         informations[date]?.append(("Hello", Color.orange))
         informations[date]?.append(("World", Color.blue))
+        informations[date]?.append(("World", Color.red))
+        informations[date]?.append(("World", Color.blue))
         
         date = date.addDay(value: 3)
         informations[date] = []
@@ -116,6 +118,10 @@ struct InformationCalendarView: View {
                         }
                     }
                     .frame(width: reader.size.width, height: 160, alignment: .center)
+                }
+            }.toolbar {
+                ToolbarItemGroup {
+                    Text("Hello")
                 }
             }
         }
