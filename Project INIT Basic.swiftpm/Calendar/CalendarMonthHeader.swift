@@ -2,7 +2,8 @@ import SwiftUI
 import SwiftUICalendar
 
 struct CalendarMonthHeader: View {
-    @ObservedObject var controller: CalendarController
+    @ObservedObject var controller = CalendarController()
+    
     var body: some View {
         HStack {
             Text("\(String(controller.yearMonth.year))년 \(controller.yearMonth.monthShortString)")
@@ -11,21 +12,21 @@ struct CalendarMonthHeader: View {
             Spacer()
             Button(
                 action: {
-                    controller.setYearMonth(controller.yearMonth.addMonth(value: -1))
+                controller.setYearMonth(controller.yearMonth.addMonth(value: -1))
                 },
-                label: {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.black)
-                })
+                   label: {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(.black)
+            })
             Button(
                 action: {
-                    controller.setYearMonth(controller.yearMonth.addMonth(value: 1))
-                }, 
-                label: {
-                    Image(systemName: "chevron.right")
-                        .foregroundColor(.black)
-                        .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 20))
-                })
+                controller.setYearMonth(controller.yearMonth.addMonth(value: 1))
+            }, 
+                   label: {
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.black)
+                    .padding(EdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 20))
+            })
             
         }
         
