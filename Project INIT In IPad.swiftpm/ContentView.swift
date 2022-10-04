@@ -4,6 +4,7 @@
 //
 //  Created by 이윤학 on 2022/09/17.
 //
+
 import SwiftUI
 import SwiftUICalendar
 
@@ -22,13 +23,13 @@ struct ContentView: View {
                     Image(systemName: selection != Tabs.Home 
                           ? "house"
                           : "house.fill")
-                        .environment(\.symbolVariants, .none)
+                    .environment(\.symbolVariants, .none)
                     Text(Tabs.Home.rawValue)
                 }.tag(Tabs.Home)
             InfoCalendar(modelData: modelData, controller: controller)
                 .tabItem {
                     Image(systemName: "calendar")
-                    .environment(\.symbolVariants, .none)
+                        .environment(\.symbolVariants, .none)
                     Text(Tabs.Explore.rawValue)
                 }
                 .tag(Tabs.Explore)
@@ -40,11 +41,14 @@ struct ContentView: View {
                 .tag(Tabs.Weekly)
             SettingView()
                 .tabItem {
-                    Image(systemName: "gearshape")
+                    Image(systemName: selection != Tabs.Setting
+                          ? "gearshape"
+                          : "gearshape.fill")
+                        .environment(\.symbolVariants, .none)
                     Text(Tabs.Setting.rawValue)
                 }
                 .tag(Tabs.Setting)
-        }.accentColor(.black)
+        }.accentColor(.brown)
             .onAppear{
                 UITabBar.appearance().unselectedItemTintColor = UIColor.gray
             }

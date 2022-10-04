@@ -12,6 +12,6 @@ struct InfoDetail: View {
 
 struct InformationSummaryView_Previews: PreviewProvider {
     static var previews: some View {
-        InfoDetail(info: ModelData().informations[1])
+        InfoDetail(info: ModelData().informations[0])
     }
 }

@@ -8,6 +8,7 @@ struct CalendarDayHeader: View {
                 Text(DateFormatter().shortWeekdaySymbols[i])
                     .font(.system(size: 10, weight: .bold, design: .default))
                     .frame(maxWidth: .infinity)
+                    .foregroundColor(.secondary)
             }
         }
     }
