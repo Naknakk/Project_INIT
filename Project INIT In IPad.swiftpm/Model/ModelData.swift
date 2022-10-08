@@ -10,7 +10,8 @@ import Combine
 
 public class ModelData: ObservableObject {
     @Published var informations: [Information] = [
-        Information(id: UUID(), title: "Hello", color: .orange, date: YearMonthDay(year: 2022, month: 9, day: 16)),
+        Information(title: "Long Schedule", color: .black, startDate: Date().set(year: 2022, month: 9, day: 30, hour: 3, minute: 5), endDate: Date().set(year: 2022, month: 10, day: 2, hour: 3, minute: 50)),
+        /*Information(id: UUID(), title: "Hello", color: .orange, date: YearMonthDay(year: 2022, month: 9, day: 16)),
         Information(id: UUID(), title: "World", color: .blue, date: YearMonthDay(year: 2022, month: 9, day: 16)),
         Information(id: UUID(), title: "Today", color: .red, date: YearMonthDay(year: 2022, month: 9, day: 16)),
         Information(id: UUID(), title: "Is", color: .green, date: YearMonthDay(year: 2022, month: 9, day: 16)),
@@ -24,7 +25,8 @@ public class ModelData: ObservableObject {
         Information(id: UUID(), title: "Christmas", color: .blue, date: YearMonthDay(year: 2022, month: 12, day: 25)),
         Information(id: UUID(), title: "Balentein", color: .blue, date: YearMonthDay(year: 2023, month: 2, day: 14)),
         Information(id: UUID(), title: "OpenSky", color: .blue, date: YearMonthDay(year: 2022, month: 10, day: 1))
-    ].sorted(by: {$0.date < $1.date})
+         */
+    ].sorted(by: {$0.startDate.toYearMonthDay() < $1.startDate.toYearMonthDay()})
 }
 
 

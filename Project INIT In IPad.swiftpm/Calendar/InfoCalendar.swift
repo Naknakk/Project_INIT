@@ -13,7 +13,7 @@ struct InfoCalendar: View {
     @ObservedObject var controller: CalendarController
     @State var focusDate: YearMonthDay? = nil
     @State var focusInfo: [Information]? = nil
-    @State var addPage: Bool = false
+    
     var informationSet: [YearMonthDay: [Information]] {
         var informations = [YearMonthDay: [Information]]()
         for information in self.modelData.informations {
@@ -29,109 +29,44 @@ struct InfoCalendar: View {
         return informations
     }
     
+    @State var isAddingNewInfo: Bool = false
+    @State var newInfo = Information(endDate: Date())
+    var basicDate: Date {
+        var day = YearMonthDay.current
+        if let focusDate = self.focusDate {
+            day = focusDate
+        }
+        return day.toDate()
+    }
+    
     var body: some View {
         NavigationView {
             GeometryReader { reader in
                 VStack {
                     CalendarMonthHeader(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo)
+                    
                     CalendarDayHeader()
-                    CalendarView(controller, component: { date in
-                        GeometryReader { geometry in
-                            VStack(alignment: .leading, spacing: 0) {
-                                if date.isToday {
-                                    Text("\(date.day)")
-                                        .todayFont()
-                                } else if date == focusDate {
-                                    Text("\(date.day)")
-                                        .font(.system(size: 10, weight: .heavy, design: .default))
-                                        .opacity(date.isFocusYearMonth == true ? 1 : 0.4)
-                                        .foregroundColor(Text.getColor(date))
-                                        .padding(4)
-                                } else {
-                                    Text("\(date.day)")
-                                        .font(.system(size: 10, weight: .light, design: .default))
-                                        .opacity(date.isFocusYearMonth == true ? 1 : 0.4)
-                                        .foregroundColor(Text.getColor(date))
-                                        .padding(4)
-                                }
-                                if let infos = informationSet[date] {
-                                    let allDayInfos = infos.filter{ $0.isLong == true }
-                                    let dailyInfos = infos.filter{ $0.isLong == false }
-                                    
-                                    VStack(spacing: 1.5) {
-                                        VStack(spacing: 1.5) {
-                                            ForEach(allDayInfos.indices) { index in
-                                                let info = allDayInfos[index]
-                                                Text(info.title)
-                                                    .lineLimit(1)
-                                                    .foregroundColor(.white)
-                                                    .font(.system(size: 8, weight: .bold, design: .default))
-                                                    .padding(EdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0))
-                                                    .frame(width: geometry.size.width, alignment: .center)
-                                                    .background(info.color.opacity(0.75))
-                                                    .cornerRadius(2)
-                                                    .opacity(date.isFocusYearMonth == true ? 1 : 0.4)
-                                            }
-                                        }
-                                        ScrollView(showsIndicators: false) {
-                                            VStack(spacing: 1.5) {
-                                                ForEach(dailyInfos.indices) { index in
-                                                    let info = dailyInfos[index]
-                                                    Text(info.title)
-                                                        .lineLimit(1)
-                                                        .foregroundColor(.white)
-                                                        .font(.system(size: 8, weight: .bold, design: .default))
-                                                        .padding(EdgeInsets(top: 2, leading: 4, bottom: 2, trailing: 4))
-                                                        .frame(width: geometry.size.width, alignment: .center)
-                                                        .background(info.color.opacity(0.75))
-                                                        .cornerRadius(4)
-                                                        .opacity(date.isFocusYearMonth == true ? 1 : 0.4)
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading)
-                            .border(.green.opacity(0.8), width: (focusDate == date ? 1 : 0))
-                            .cornerRadius(2)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                    if focusDate == date {
-                                        addPage = true
-                                    } else {
-                                        focusDate = date
-                                        withAnimation{
-                                            focusInfo = informationSet[date]
-                                        }
-                                    }
-                            }
-                        }
-                    })
+                    
+                    CalendarGrid(modelData: modelData, controller: controller, focusDate: $focusDate, focusInfo: $focusInfo, informationSet: informationSet, isAddingNewInfo: $isAddingNewInfo)
+                    
                     if let infos = focusInfo {
                         InfoList(infos: infos)
                             .frame(width: reader.size.width, height: reader.size.height/4, alignment: .center)
-                            .animation(.easeInOut)
                     }
                 }
                 .navigationBarTitle("", displayMode: .inline)
                 .navigationBarItems(leading: Text("Explore").font(.system(size: 25, weight: .bold, design: .default)))
                 .overlay(alignment: .bottomTrailing){
-                    AddButton(addPage: $addPage)
+                    AddButton(addPage: $isAddingNewInfo, newInfo: $newInfo, basicDate: basicDate)
                         .padding(20)
                 }
-                .sheet(isPresented: $addPage) {
-                    ScheduleEditor(modelData: modelData, isPresented: $addPage, focusDate: focusDate)
+                .sheet(isPresented: $isAddingNewInfo) {
+                    ScheduleEditor(modelData: modelData, isPresented: $isAddingNewInfo, schedule: $newInfo)
                 }
             }
             
         }
     }
-}
-
-
-extension InfoCalendar {
-    
 }
 
 extension Text {

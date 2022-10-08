@@ -7,10 +7,10 @@ extension YearMonth: Hashable {
         hasher.combine(month)
     }
     
-    static func < (lhs: YearMonth, rhs: YearMonth) -> Bool {
+    static func < (lhs: Self, rhs: Self) -> Bool {
         return (lhs.year, lhs.month) < (rhs.year, rhs.month)
     }
-    static func > (lhs: YearMonth, rhs: YearMonth) -> Bool {
+    static func > (lhs: Self, rhs: Self) -> Bool {
         return (lhs.year, lhs.month) > (rhs.year, rhs.month)
     }
 }
