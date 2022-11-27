@@ -4,7 +4,8 @@ struct WeeklyCalendarView: View {
         NavigationView{
             VStack{
                 Text("Weekly Calendar View")
-            }.navigationBarTitle("", displayMode: .inline)
+            }
+            .navigationBarTitle("", displayMode: .inline)
                 .navigationBarItems(leading: Text("Weekly").font(.system(size: 25, weight: .bold, design: .default)))
         }
     }

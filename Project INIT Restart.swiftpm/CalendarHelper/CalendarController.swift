@@ -13,6 +13,7 @@ public class CalendarController: ObservableObject {
     @Published public var isLocked: Bool
     @Published internal var position: Int = Global.CENTER_PAGE
     @Published internal var internalYearMonth: YearMonth
+    @Published public var date: Date = Date()
     
     internal let orientation: Orientation
     internal let columnCount = 7
@@ -32,7 +33,7 @@ public class CalendarController: ObservableObject {
         self.isLocked = isLocked
         
         detector
-            .debounce(for: .seconds(0.2), scheduler: DispatchQueue.main)
+            //.debounce(for: .seconds(0.2), scheduler: DispatchQueue.main)
             .dropFirst()
             .sink { [weak self] value in
                 if let self = self {
@@ -55,11 +56,11 @@ public class CalendarController: ObservableObject {
         self.position = self.center
     }
     
-    public func scrollTo(year: Int, month: Int, isAnimate: Bool = true) {
+    public func scrollTo(year: Int, month: Int, isAnimate: Bool = false) {
         self.scrollTo(YearMonth(year: year, month: month), isAnimate: isAnimate)
     }
     
-    public func scrollTo(_ yearMonth: YearMonth, isAnimate: Bool = true) {
+    public func scrollTo(_ yearMonth: YearMonth, isAnimate: Bool = false) {
         if isAnimate {
             var diff = self.position - yearMonth.diffMonth(value: self.yearMonth)
             if diff < 0 {

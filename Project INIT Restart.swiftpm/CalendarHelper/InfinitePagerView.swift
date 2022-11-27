@@ -19,7 +19,6 @@ internal struct InfinitePagerView<Content: View>: View {
         self.controller = controller
         self.content = content
     }
-    
     var body: some View {
         drawTabView { geometry in
             ForEach(0..<controller.max, id: \.self) { i in
