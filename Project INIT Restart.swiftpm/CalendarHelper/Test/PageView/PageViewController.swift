@@ -3,10 +3,11 @@ import UIKit
 
 struct PageViewController<Page: View>: UIViewControllerRepresentable {
     var pages: [Page]
+    @ObservedObject var calendarController: CalendarController
     @Binding var currentPage: Int
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+        Coordinator(self, calendarController: calendarController)
     }
     
     func makeUIViewController(context: Context) -> UIPageViewController {
@@ -27,12 +28,14 @@ struct PageViewController<Page: View>: UIViewControllerRepresentable {
     class Coordinator: NSObject, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
         var parent: PageViewController
         var controllers = [UIViewController]()
+        @ObservedObject var calendarController: CalendarController
         
-        init(_ pageViewController: PageViewController) {
+        init(_ pageViewController: PageViewController, calendarController: CalendarController) {
             parent = pageViewController
             controllers = parent.pages.map {
                 UIHostingController(rootView: $0)
             }
+            self.calendarController = calendarController
         }
         
         func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
@@ -62,6 +65,7 @@ struct PageViewController<Page: View>: UIViewControllerRepresentable {
                 if completed,
                    let visibleViewController = pageViewController.viewControllers?.first,
                    let index = controllers.firstIndex(of: visibleViewController) {
+                    calendarController.setYearMonth(calendarController.yearMonth.addMonth(value: index-parent.currentPage))
                     parent.currentPage = index
                     
                     

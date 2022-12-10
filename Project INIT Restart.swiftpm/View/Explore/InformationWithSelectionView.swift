@@ -135,7 +135,7 @@ struct InformationWithSelectionView: View {
             }
         }
     }
-        
+    
     
     private func getColor(_ date: YearMonthDay) -> Color {
         if date.dayOfWeek == .sun {

@@ -7,10 +7,9 @@ struct InfoCalendar: View {
     @State var focusDate: YearMonthDay? = nil
     @State var focusInfo: [Information]? = nil
     @State var showingMonthSelector: Bool = false
-    @State var yearMonth: YearMonth
-    var pages = [0]
     
     var body: some View {
+        let pages = [-2, -1, 0, 1, 2]
         let yearMonths = pages.map{controller.yearMonth.addMonth(value: $0)}
         
         NavigationView {
@@ -20,9 +19,9 @@ struct InfoCalendar: View {
                     
                     CalendarDayHeader()
                     
-                    PageView(pages: yearMonths.map {
-                        CalendarGrid(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo, yearMonth: $0)
-                    })
+                    PageView(pages: pages.map {
+                        CalendarGrid(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo, yearMonth: controller.yearMonth.addMonth(value: $0))
+                    }, controller: controller)
                     
                    // CalendarGrid(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo, yearMonth: yearMonth)
                     
@@ -45,7 +44,7 @@ struct InfoCalendar: View {
 
 struct InfoCalendaer_Previews: PreviewProvider {
     static var previews: some View {
-        InfoCalendar(controller: CalendarController(), yearMonth: YearMonth(year: 2022, month: 12))
+        InfoCalendar(controller: CalendarController())
             .environmentObject(ModelData())
     }
 }
