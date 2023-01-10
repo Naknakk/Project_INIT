@@ -23,6 +23,18 @@ struct InfoCalendar: View {
                         CalendarGrid(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo, yearMonth: controller.yearMonth.addMonth(value: $0))
                     }, controller: controller)
                     
+                    /*ScrollView(.horizontal) {
+                        LazyHStack {
+                            CalendarGrid(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo, yearMonth: controller.yearMonth.addMonth(value: -1))
+                                .frame(width: reader.size.width)
+                            CalendarGrid(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo, yearMonth: controller.yearMonth.addMonth(value: 0))
+                                .frame(width: reader.size.width)
+                            CalendarGrid(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo, yearMonth: controller.yearMonth.addMonth(value: 1))
+                                .frame(width: reader.size.width)
+                        }
+                        
+                    }*/
+                    
                    // CalendarGrid(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo, yearMonth: yearMonth)
                     
                     if let infos = focusInfo {

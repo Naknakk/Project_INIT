@@ -2,6 +2,7 @@ import SwiftUI
 import Combine
 
 final class ModelData: ObservableObject {
+    @Published var calendarController = CalendarController()
     @Published var informationSet: [YearMonthDay: [Information]] = [
         YearMonthDay.current: [
             Information(title: "Hello", color: Color.orange),

@@ -17,8 +17,8 @@ public struct CalendarView<CalendarCell: View, HeaderCell: View>: View {
     @ObservedObject private var controller: CalendarController
     private let isHasHeader: Bool
     
-    public init(
-        _ controller: CalendarController = CalendarController(),
+     init(
+        _ controller: CalendarController,
         @ViewBuilder component: @escaping (YearMonthDay) -> CalendarCell
     ) where HeaderCell == EmptyView {
         self.controller = controller
@@ -28,8 +28,8 @@ public struct CalendarView<CalendarCell: View, HeaderCell: View>: View {
         self.headerSize = .zero
     }
     
-    public init(
-        _ controller: CalendarController = CalendarController(),
+    init(
+        _ controller: CalendarController,
         headerSize: HeaderSize = .fixHeight(40),
         @ViewBuilder header: @escaping (Week) -> HeaderCell,
         @ViewBuilder component: @escaping (YearMonthDay) -> CalendarCell

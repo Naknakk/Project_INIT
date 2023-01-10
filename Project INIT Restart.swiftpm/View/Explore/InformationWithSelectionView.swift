@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct InformationWithSelectionView: View {
-    let controller = CalendarController()
     @EnvironmentObject var modelData: ModelData
     var informations = [YearMonthDay: [(String, Color)]]()
     @State var focusDate: YearMonthDay? = nil
@@ -50,9 +49,10 @@ struct InformationWithSelectionView: View {
         NavigationView{
             GeometryReader { reader in
                 VStack {
-                    CalendarMonthHeader(controller: controller, focusDate: $focusDate, focusInfo: $focusInfo)
+                    CalendarMonthHeader(controller: modelData.calendarController, focusDate: $focusDate, focusInfo: $focusInfo)
                     
-                    CalendarView(controller, header: { week in
+                    CalendarView(
+                        modelData.calendarController, header: { week in
                         GeometryReader { geometry in
                             Text(week.shortString)
                                 .font(.subheadline)
@@ -149,7 +149,9 @@ struct InformationWithSelectionView: View {
 }
 
 struct InformationWithSelectionView_Previews: PreviewProvider {
+    
     static var previews: some View {
         InformationWithSelectionView()
+            .environmentObject(ModelData())
     }
 }
